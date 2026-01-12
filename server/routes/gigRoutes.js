@@ -6,6 +6,5 @@ const router = express.Router();
 
 router.get("/", getAllGigsController);
 router.post("/" ,authMiddleware, postGigController);
-// router.get("/search/:gigTitle", getGigByTitleController);
 
 export default router;
