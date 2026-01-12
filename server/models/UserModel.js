@@ -26,19 +26,26 @@ const userSchema = new mongoose.Schema(
 )
 
 userSchema.pre(
-  "save" , async function(next) {
+  "save" , async function() {
     if( !this.isModified('password') ) return;
     this.password = await bcrypt.hash(this.password , 10);
   }
 )
 
-userSchema.methods.comparePassword = async function(currPassword) {
-  return await bcrypt.compare(currPassword , this.password);
+userSchema.methods.comparePassword = function(currPassword) {
+  return bcrypt.compare(currPassword , this.password);
 }
 
-userSchema.methods.generateAccessToken = async function() {
-  const accessToken = jwt.sign(
-    // pass
+userSchema.methods.generateAccessToken = function() {
+  return jwt.sign(
+    {
+      id: this._id,
+      email: this.email
+    },
+    process.env.SECRET_KEY,
+    {
+      expiresIn: "1d"
+    }
   )
 }
 

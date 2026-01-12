@@ -2,9 +2,11 @@ import {app} from './app.js'
 import dotenv from 'dotenv';
 
 import connectDb from './config/db.js';
-import createUser from './tests/createDummyUser.js';
+// import createUser from './tests/createDummyUser.js';
 
-dotenv.config();
+dotenv.config({
+  path: './.env'
+});
 
 //CONNECT THE DB
 connectDb()
@@ -16,7 +18,7 @@ connectDb()
 
     // LISTENING ON PORT
     app.listen(process.env.PORT || 3000 , () =>{
-      createUser();
+      // createUser();
       console.log(`Server running on the http://localhost:${process.env.PORT || 3000}`);
     })
   })

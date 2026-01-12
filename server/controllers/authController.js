@@ -1,6 +1,6 @@
-import { errorResponse , successResponse } from '../utils/responseHandler';
+import { errorResponse , successResponse } from '../utils/responseHandler.js';
 
-import User from '../models/UserModel';
+import User from '../models/UserModel.js';
 
 
 const registerController = async (req , res) => {
