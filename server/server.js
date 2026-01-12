@@ -1,20 +1,25 @@
-import express from 'express';
+import {app} from './app.js'
+import dotenv from 'dotenv';
 
-import authRoutes from './routes/authRoutes.js'
+import connectDb from './config/db.js';
+import createUser from './tests/createDummyUser.js';
 
-const app = express();
+dotenv.config();
 
-// middlewares
-app.use(express.json());
+//CONNECT THE DB
+connectDb()
+  .then( () => {
+    // LISTENING TO ERRORS
+    app.on('error' , (error)=>{
+      console.error(`Error: ${error}`)
+    })
 
-// routes addition
-app.use("/api/auth", authRoutes);
-
-app.get("/" , (req , res)=> {
-  res.end("Express page here...")
-})
-
-
-app.listen(3000 , ()=> {
-  console.log(`Server running on http://localhost:3000`)
-})
+    // LISTENING ON PORT
+    app.listen(process.env.PORT || 3000 , () =>{
+      createUser();
+      console.log(`Server running on the http://localhost:${process.env.PORT || 3000}`);
+    })
+  })
+  .catch( (err) => {
+    console.error(`MonogoDb connection error: ${err}`)
+  })
