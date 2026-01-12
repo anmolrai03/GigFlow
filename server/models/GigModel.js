@@ -27,6 +27,10 @@ const  gigSchema = new mongoose.Schema({
   }
 }, {timestamps: true})
 
+
+gigSchema.index({ title: 1, status: 1 });
+
+
 const Gig = mongoose.model("Gig", gigSchema);
 
 export default Gig;
