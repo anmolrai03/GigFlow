@@ -3,15 +3,14 @@ import Gig from "../models/GigModel.js";
 
 // GET ALL OPEN GIGS (WITH OPTIONAL SEARCH)
 const getAllGigsController = async (req, res) => {
+
   const { q } = req.query; // search query (optional)
 
   try {
-    const filter = {
-      status: "open"
-    };
+    const filter = {};
 
     // If search query exists, add title filter
-    if (q) {
+    if (q && q.trim() !== "") {
       filter.title = {
         $regex: q.trim(), // anchored search
         $options: "i"           // case-insensitive
@@ -19,8 +18,11 @@ const getAllGigsController = async (req, res) => {
     }
 
     const gigs = await Gig.find(filter)
-      .limit(10)
-      .select("title description budget status ownerId");
+      .sort({ createdAt: -1 }) // latest first (optional but good UX)
+      .limit(20)
+      .select("title description budget status ownerId createdAt");
+
+    // const gigs = await Gig.find({});
 
     if (gigs.length === 0) {
       return successResponse(
