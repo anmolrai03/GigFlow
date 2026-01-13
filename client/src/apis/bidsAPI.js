@@ -14,3 +14,7 @@ export const getBidsForGigApi = (gigId) => {
 export const hireBidApi = (bidId) => {
   return api.patch(`/bids/${bidId}/hire`);
 };
+
+export const getMyBidsApi = () => {
+  return api.get("/bids/my-bids")
+}

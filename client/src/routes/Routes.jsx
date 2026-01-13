@@ -48,6 +48,15 @@ const routes = createBrowserRouter(
         />
 
         <Route
+          path="/dashboard/gigs/:gigId"
+          element={
+            <ProtectedRoute>
+              <GigDetails showBidForm={false} />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="/post-gig"
           element={
             <ProtectedRoute>

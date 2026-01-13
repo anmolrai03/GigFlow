@@ -22,7 +22,7 @@ const useGetBids = (gigId) => {
     fetchBids();
   }, [gigId]);
 
-  return { bids, loading };
+  return { bids, loading,setBids };
 };
 
 export default useGetBids;
