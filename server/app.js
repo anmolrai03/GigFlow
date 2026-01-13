@@ -3,7 +3,7 @@ import cookieParser from 'cookie-parser';
 
 import authRoutes from './routes/authRoutes.js';
 import gigRoutes from './routes/gigRoutes.js';
-// import bidRoutes from './routes/bidRoutes.js';
+import bidRoutes from './routes/bidRoutes.js';
 
 const app = express();
 
@@ -19,6 +19,6 @@ app.use(cookieParser());
 // routes addition
 app.use("/api/auth", authRoutes);
 app.use("/api/gigs", gigRoutes);
-// app.use("/api/bids", bidRoutes);
+app.use("/api/bids", bidRoutes);
 
 export {app};
