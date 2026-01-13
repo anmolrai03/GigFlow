@@ -1,5 +1,5 @@
 import express from "express";
-import {submitBidController , getBidsForGigController, hireController} from '../controllers/bidController.js'
+import {submitBidController , getBidsForGigController, hireController, getMyBidsController} from '../controllers/bidController.js'
 import authMiddleware from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
@@ -9,7 +9,12 @@ const router = express.Router();
 // Hiring PATCH /api/bids/:bidId/hire The "Hire" logic (Atomic update).
 
 router.post("/" ,authMiddleware, submitBidController);
+
+// ADDITIONAL ROUTE TO GET ALL THE BIDS FOR A USER.
+router.get("/my-bids", authMiddleware , getMyBidsController)
+
 router.get("/:gigId" ,authMiddleware, getBidsForGigController);
 router.patch("/:bidId/hire",authMiddleware, hireController);
+
 
 export default router;

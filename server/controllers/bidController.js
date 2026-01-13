@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import Bid from '../models/BidModel.js'
+import Bid from "../models/BidModel.js";
 import Gig from "../models/GigModel.js";
 
 import { errorResponse, successResponse } from "../utils/responseHandler.js";
@@ -43,10 +43,25 @@ const submitBidController = async (req, res) => {
       );
     }
 
+    // Check if user has already submitted a bid for this gig
+    const existingBid = await Bid.findOne({
+      gigId,
+      freelancerId: req.user.id,
+    });
+
+    if (existingBid) {
+      return errorResponse(
+        res,
+        409,
+        "DUPLICATE_BID",
+        "You have already submitted a bid for this gig"
+      );
+    }
+
     const bid = await Bid.create({
       gigId,
       freelancerId: req.user.id,
-      message
+      message,
     });
 
     return successResponse(
@@ -56,7 +71,6 @@ const submitBidController = async (req, res) => {
       "Bid submitted successfully",
       bid
     );
-
   } catch (error) {
     console.error("Submit Bid Error:", error);
     return errorResponse(res, 500, "INTERNAL_SERVER_ERROR", "Server error");
@@ -94,12 +108,10 @@ const getBidsForGigController = async (req, res) => {
       "Bids fetched successfully",
       bids
     );
-
   } catch (error) {
     return errorResponse(res, 500, "INTERNAL_SERVER_ERROR", "Server error");
   }
 };
-
 
 const hireController = async (req, res) => {
   const { bidId } = req.params;
@@ -154,7 +166,7 @@ const hireController = async (req, res) => {
     await Bid.updateMany(
       {
         gigId: gig._id,
-        _id: { $ne: bid._id }
+        _id: { $ne: bid._id },
       },
       { status: "rejected" },
       { session }
@@ -169,7 +181,6 @@ const hireController = async (req, res) => {
       "FREELANCER_HIRED",
       "Freelancer hired successfully"
     );
-
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
@@ -179,5 +190,32 @@ const hireController = async (req, res) => {
   }
 };
 
+// GET ALL BIDS PLACED BY LOGGED-IN USER
+const getMyBidsController = async (req, res) => {
+  try {
+    const userId = req.user.id;
 
-export {submitBidController , getBidsForGigController, hireController};
+    const bids = await Bid.find({ freelancerId: userId })
+      .populate("gigId", "title description budget status")
+      .sort({ createdAt: -1 });
+
+    return successResponse(
+      res,
+      200,
+      "MY_BIDS_FETCHED",
+      "Bids placed by user fetched successfully",
+      bids
+    );
+  } catch (error) {
+    console.error("Error fetching my bids:", error);
+
+    return errorResponse(
+      res,
+      500,
+      "INTERNAL_SERVER_ERROR",
+      "Server error while fetching bids"
+    );
+  }
+};
+
+export { submitBidController, getBidsForGigController, hireController, getMyBidsController };
