@@ -1,11 +1,19 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 import authRoutes from './routes/authRoutes.js';
 import gigRoutes from './routes/gigRoutes.js';
 import bidRoutes from './routes/bidRoutes.js';
 
 const app = express();
+
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true
+  })
+)
 
 //Setting JSON limit.
 app.use(express.json({limit: '16kb'}));
