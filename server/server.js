@@ -1,12 +1,8 @@
-import {app} from './app.js'
-import dotenv from 'dotenv';
-
+// IMPORT APP
+import { app } from './app.js';
 import connectDb from './config/db.js';
 // import createUser from './tests/createDummyUser.js';
 
-dotenv.config({
-  path: './.env'
-});
 
 //CONNECT THE DB
 connectDb()
