@@ -1,8 +1,15 @@
 import React from 'react'
+import AuthContextProvider from './context/AuthContextProvider'
+import { RouterProvider } from 'react-router-dom'
+
+import routes from './routes/Routes'
+
 
 function App() {
   return (
-    <div className='bg-blue-400'>This is GigFlow</div>
+   <AuthContextProvider>
+    <RouterProvider router={routes} />
+   </AuthContextProvider>
   )
 }
 
