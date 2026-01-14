@@ -202,9 +202,7 @@ The dashboard is split into two tabs:
 ## Error Handling Strategy
 
 | Error Code | Meaning |
-
 |---|---|
-
 | `DATA_INSUFFICIENT` | Missing required fields |
 | `UNAUTHORIZED` | Not logged in |
 | `FORBIDDEN` | Ownership or role violation |
