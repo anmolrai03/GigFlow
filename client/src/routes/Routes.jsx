@@ -14,7 +14,7 @@ import {
   PostGig,
   GigDetails,
   Dashboard,
-  ManageGig,
+  ManageBid,
 } from "../pages/pagesExport";
 
 
@@ -27,14 +27,15 @@ const routes = createBrowserRouter(
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
+
       {/* APP LAYOUT (Header is inside Router now) */}
       <Route element={<Layout />}>
         <Route
           path="/home"
           element={
-            <ProtectedRoute>
+            // <ProtectedRoute>
               <Home />
-            </ProtectedRoute>
+            // </ProtectedRoute>
           }
         />
 
@@ -47,14 +48,14 @@ const routes = createBrowserRouter(
           }
         />
 
-        <Route
+        {/* <Route
           path="/dashboard/gigs/:gigId"
           element={
             <ProtectedRoute>
               <GigDetails showBidForm={false} />
             </ProtectedRoute>
           }
-        />
+        /> */}
 
         <Route
           path="/post-gig"
@@ -78,7 +79,7 @@ const routes = createBrowserRouter(
           path="/dashboard/gigs/:gigId"
           element={
             <ProtectedRoute>
-              <ManageGig />
+              <ManageBid />
             </ProtectedRoute>
           }
         />
