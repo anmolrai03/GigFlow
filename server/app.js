@@ -38,4 +38,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/gigs", gigRoutes);
 app.use("/api/bids", bidRoutes);
 
+// HEALTH CHECK ROUTE FOR PRODUCTION USAGAGE
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
+
+
 export {app};
